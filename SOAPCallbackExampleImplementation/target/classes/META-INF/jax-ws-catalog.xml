@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8181/soapcallback?wsdl" uri="wsdl/localhost_8181/soapcallback.wsdl"/>
-    <system systemId="http://localhost:8080/soapcallback?wsdl" uri="wsdl/localhost_8080/soapcallback.wsdl"/>
-    <system systemId="http://localhost:8080/soap/nomeinterfacciaservizio/v1?wsdl" uri="wsdl/localhost_8080/soap/nomeinterfacciaservizio/v1.wsdl"/>
-</catalog>
