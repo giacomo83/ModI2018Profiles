@@ -31,10 +31,11 @@ public interface RESTBlockingIface {
 	@Path("/resources/{id_resource}/M")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-        @Operation(description="M",
+        @Operation(description="Esegue M", operationId = "M",
             responses= {
                 @ApiResponse(responseCode = "500", description = "Errore interno avvenuto", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
                 @ApiResponse(responseCode = "404", description = "Identificativo non trovato", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
+                @ApiResponse(responseCode = "400", description = "Richiesta non valida", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
                 @ApiResponse(responseCode = "200", description = "Esecuzione di M avvenuta con successo", content=@Content(schema=@Schema(implementation=MResponseType.class)))
             })
         /*@ApiOperation(value = "M", response = MResponseType.class)
