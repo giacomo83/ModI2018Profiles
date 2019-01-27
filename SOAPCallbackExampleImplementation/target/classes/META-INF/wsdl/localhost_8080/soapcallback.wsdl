@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://server.soapcallback.modi2018/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SOAPCallbackService" targetNamespace="http://server.soapcallback.modi2018/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://server.soapcallback.modi2018/" elementFormDefault="unqualified" targetNamespace="http://server.soapcallback.modi2018/" version="1.0">
+
+  <xs:element name="OneWayTest" type="tns:OneWayTest"/>
+
+  <xs:element name="OneWayTestResponse" type="tns:OneWayTestResponse"/>
+
+  <xs:element name="PushMessage" type="tns:PushMessage"/>
+
+  <xs:element name="PushMessageResponse" type="tns:PushMessageResponse"/>
+
+  <xs:complexType name="PushMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="M" type="tns:mType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="o_id" type="xs:int"/>
+      <xs:element minOccurs="0" name="a" type="tns:aComplexType"/>
+      <xs:element minOccurs="0" name="b" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="aComplexType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="a1s" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="a2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PushMessageResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:mResponseType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mResponseType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="c" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OneWayTest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="M" type="tns:mType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OneWayTestResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="OneWayTestResponse">
+    <wsdl:part element="tns:OneWayTestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OneWayTest">
+    <wsdl:part element="tns:OneWayTest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PushMessageResponse">
+    <wsdl:part element="tns:PushMessageResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PushMessage">
+    <wsdl:part element="tns:PushMessage" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SOAPCallback">
+    <wsdl:operation name="PushMessage">
+      <wsdl:input message="tns:PushMessage" name="PushMessage" wsam:Action="http://server.soapcallback.modi2018/SOAPCallback/PushMessageRequest" wsaw:Action="http://server.soapcallback.modi2018/SOAPCallback/PushMessageRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:PushMessageResponse" name="PushMessageResponse" wsam:Action="http://server.soapcallback.modi2018/SOAPCallback/PushMessageResponse" wsaw:Action="http://server.soapcallback.modi2018/SOAPCallback/PushMessageResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OneWayTest">
+      <wsdl:input message="tns:OneWayTest" name="OneWayTest" wsam:Action="http://server.soapcallback.modi2018/SOAPCallback/OneWayTestRequest" wsaw:Action="http://server.soapcallback.modi2018/SOAPCallback/OneWayTestRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:OneWayTestResponse" name="OneWayTestResponse" wsam:Action="http://server.soapcallback.modi2018/SOAPCallback/OneWayTestResponse" wsaw:Action="http://server.soapcallback.modi2018/SOAPCallback/OneWayTestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SOAPCallbackServiceSoapBinding" type="tns:SOAPCallback">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsaw:UsingAddressing xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" wsdl:required="false"/>
+    <wsp:PolicyReference URI="#SOAPCallbackServiceSoapBinding_WSAM_Addressing_Policy"/>
+    <wsdl:operation name="PushMessage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="PushMessage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="PushMessageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OneWayTest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="OneWayTest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="OneWayTestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SOAPCallbackService">
+    <wsdl:port binding="tns:SOAPCallbackServiceSoapBinding" name="SOAPCallbackPort">
+      <soap:address location="http://localhost:8080/soapcallback"/>
+    </wsdl:port>
+  </wsdl:service>
+    <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="SOAPCallbackServiceSoapBinding_WSAM_Addressing_Policy"><wsam:Addressing wsp:Optional="true"><wsp:Policy/></wsam:Addressing></wsp:Policy>
+</wsdl:definitions>
