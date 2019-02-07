@@ -12,6 +12,7 @@ import javax.xml.ws.soap.Addressing;
 import modi2018.soapcallback.ErrorMessageException;
 import modi2018.soapcallback.MResponseType;
 import modi2018.soapcallback.MType;
+import org.apache.cxf.interceptor.OutInterceptors;
 
 /**
  *
@@ -19,6 +20,7 @@ import modi2018.soapcallback.MType;
  */
 @WebService(targetNamespace = "http://amministrazioneesempio.it/nomeinterfacciaservizio")
 @Addressing(enabled = true, required = true)
+@OutInterceptors(interceptors="modi2018.soapcallback.server.Interceptor")
 public interface SOAPCallback {
     @WebMethod(operationName="MRequest")
     public MResponseType PushMessage(@WebParam(name = "M") MType M) throws ErrorMessageException;

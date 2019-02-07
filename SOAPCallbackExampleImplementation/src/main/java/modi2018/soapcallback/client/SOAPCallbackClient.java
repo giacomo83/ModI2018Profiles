@@ -93,7 +93,7 @@ class ClientThread implements Runnable {
             ert.setAddress(replyToAddress);
             addressProp.setReplyTo(ert);
             bindingProvider.getRequestContext().put(org.apache.cxf.ws.addressing.JAXWSAConstants.CLIENT_ADDRESSING_PROPERTIES, addressProp);
-            port.m(m);
+            port.mRequest(m);
             System.out.println("ACK Received " + bindingProvider.getResponseContext().get(MessageContext.HTTP_RESPONSE_CODE));
         } catch (Exception ex) {
             ex.printStackTrace();

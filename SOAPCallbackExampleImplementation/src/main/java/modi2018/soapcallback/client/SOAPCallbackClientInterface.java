@@ -24,7 +24,7 @@ public interface SOAPCallbackClientInterface {
     String NS = "http://amministrazioneesempio.it/nomeinterfacciaservizio";
 
     @Oneway
-    @WebMethod(operationName = "MResponse", action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MResponse")
+    @WebMethod(operationName = "MRequestResponse", action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequestResponse")
     public void callBack(@WebParam(name = "return") MResponseType callbackMessage);
 
 }

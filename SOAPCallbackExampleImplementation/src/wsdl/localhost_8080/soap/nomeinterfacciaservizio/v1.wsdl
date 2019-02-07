@@ -1,63 +1,100 @@
-<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://amministrazioneesempio.it/nomeinterfacciaservizio" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SOAPCallbackService" targetNamespace="http://amministrazioneesempio.it/nomeinterfacciaservizio">
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://amministrazioneesempio.it/nomeinterfacciaservizio" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SOAPCallbackService" targetNamespace="http://amministrazioneesempio.it/nomeinterfacciaservizio">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://amministrazioneesempio.it/nomeinterfacciaservizio" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://amministrazioneesempio.it/nomeinterfacciaservizio">
-  <xs:element name="M" type="tns:M"/>
-  <xs:element name="MResponse" type="tns:MResponse"/>
-  <xs:complexType name="M">
+<xs:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://amministrazioneesempio.it/nomeinterfacciaservizio" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://amministrazioneesempio.it/nomeinterfacciaservizio">
+  
+  <xs:element name="MRequest" type="tns:MRequest"/>
+  
+  <xs:element name="MRequestResponse" type="tns:MRequestResponse"/>
+  
+  <xs:complexType name="MRequest">
+    
     <xs:sequence>
+      
       <xs:element minOccurs="0" name="M" type="tns:mType"/>
+    
     </xs:sequence>
+  
   </xs:complexType>
+  
   <xs:complexType name="mType">
+    
     <xs:sequence>
+      
       <xs:element minOccurs="0" name="o_id" type="xs:int"/>
+      
       <xs:element minOccurs="0" name="a" type="tns:aComplexType"/>
+      
       <xs:element minOccurs="0" name="b" type="xs:string"/>
+    
     </xs:sequence>
+  
   </xs:complexType>
+  
   <xs:complexType name="aComplexType">
+    
     <xs:sequence>
+      
       <xs:element maxOccurs="unbounded" minOccurs="0" name="a1s" nillable="true" type="xs:string"/>
+      
       <xs:element minOccurs="0" name="a2" type="xs:string"/>
+    
     </xs:sequence>
+  
   </xs:complexType>
-  <xs:complexType name="MResponse">
+  
+  <xs:complexType name="MRequestResponse">
+    
     <xs:sequence>
+      
       <xs:element minOccurs="0" name="return" type="tns:mResponseType"/>
+    
     </xs:sequence>
+  
   </xs:complexType>
+  
   <xs:complexType name="mResponseType">
+    
     <xs:sequence>
+      
       <xs:element minOccurs="0" name="c" type="xs:string"/>
+    
     </xs:sequence>
+  
   </xs:complexType>
+  
   <xs:complexType name="errorMessageFault">
+    
     <xs:sequence>
+      
       <xs:element minOccurs="0" name="customFaultCode" type="xs:string"/>
+    
     </xs:sequence>
+  
   </xs:complexType>
+  
   <xs:element name="ErrorMessageFault" nillable="true" type="tns:errorMessageFault"/>
+
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="MResponse">
-    <wsdl:part element="tns:MResponse" name="parameters">
+  <wsdl:message name="MRequest">
+    <wsdl:part element="tns:MRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MRequestResponse">
+    <wsdl:part element="tns:MRequestResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="ErrorMessageException">
     <wsdl:part element="tns:ErrorMessageFault" name="ErrorMessageException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="M">
-    <wsdl:part element="tns:M" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:portType name="SOAPCallback">
-    <wsdl:operation name="M">
-      <wsdl:input message="tns:M" name="M" wsam:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequest" wsaw:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequest">
+    <wsdl:operation name="MRequest">
+      <wsdl:input message="tns:MRequest" name="MRequest" wsam:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequestRequest" wsaw:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequestRequest">
     </wsdl:input>
-      <wsdl:output message="tns:MResponse" name="MResponse" wsam:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MResponse" wsaw:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MResponse">
+      <wsdl:output message="tns:MRequestResponse" name="MRequestResponse" wsam:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequestResponse" wsaw:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequestResponse">
     </wsdl:output>
-      <wsdl:fault message="tns:ErrorMessageException" name="ErrorMessageException" wsam:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/M/Fault/ErrorMessageException">
+      <wsdl:fault message="tns:ErrorMessageException" name="ErrorMessageException" wsam:Action="http://amministrazioneesempio.it/nomeinterfacciaservizio/SOAPCallback/MRequest/Fault/ErrorMessageException">
     </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
@@ -65,12 +102,12 @@
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsaw:UsingAddressing xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" wsdl:required="true"/>
     <wsp:PolicyReference URI="#SOAPCallbackServiceSoapBinding_WSAM_Addressing_Policy"/>
-    <wsdl:operation name="M">
+    <wsdl:operation name="MRequest">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="M">
+      <wsdl:input name="MRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="MResponse">
+      <wsdl:output name="MRequestResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="ErrorMessageException">

@@ -5,6 +5,7 @@
  */
 package modi2018.soapcallback.client;
 
+import java.net.URL;
 import java.util.UUID;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
@@ -22,7 +23,7 @@ public class SOAPCallbackClientA {
         String serverAddress = "http://localhost:8080/soap/nomeinterfacciaservizio/v1";
         String address = "http://localhost:8181/soap/nomeinterfacciaservizio/v1";
         try { // Call Web Service Operation
-            modi2018.soapcallback.client.serverreference.SOAPCallbackService service = new modi2018.soapcallback.client.serverreference.SOAPCallbackService();
+            modi2018.soapcallback.client.serverreference.SOAPCallbackService service = new modi2018.soapcallback.client.serverreference.SOAPCallbackService(new URL("http://localhost:8080/soap/nomeinterfacciaservizio/v1?wsdl"));
             modi2018.soapcallback.client.serverreference.SOAPCallback port = service.getSOAPCallbackPort(new WSAddressingFeature());
             BindingProvider bindingProvider = (BindingProvider) port;
             bindingProvider.getRequestContext().put(
@@ -49,10 +50,10 @@ public class SOAPCallbackClientA {
             ert.setAddress(replyToAddress);
             addressProp.setReplyTo(ert);
             bindingProvider.getRequestContext().put(org.apache.cxf.ws.addressing.JAXWSAConstants.CLIENT_ADDRESSING_PROPERTIES, addressProp);
-            port.m(m);
+            port.mRequest(m);
             System.out.println("ACK Received");
             System.out.println("ACK Received " + bindingProvider.getResponseContext().get(MessageContext.HTTP_RESPONSE_CODE));
-            port.m(m);
+            port.mRequest(m);
             System.out.println("ACK Received");
         } catch (Exception ex) {
             ex.printStackTrace();
