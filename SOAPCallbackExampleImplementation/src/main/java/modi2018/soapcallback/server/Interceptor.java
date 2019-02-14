@@ -17,7 +17,7 @@ import org.apache.cxf.phase.Phase;
  */
 public class Interceptor extends AbstractSoapInterceptor {
     public Interceptor() {
-        super(Phase.SEND);
+        super(Phase.PRE_PROTOCOL);
     }
     
     @Override

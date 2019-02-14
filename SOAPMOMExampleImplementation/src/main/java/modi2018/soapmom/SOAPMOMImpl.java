@@ -19,6 +19,7 @@ import javax.xml.ws.soap.Addressing;
 
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
+import org.apache.cxf.ws.addressing.RelatesToType;
 
 @WebService(targetNamespace = "http://amministrazioneesempio.it/nomeinterfacciaservizio")
 @Addressing(enabled = true, required = false)
@@ -62,8 +63,6 @@ public class SOAPMOMImpl {
     public MResponseType PullResponseMessage(@WebParam(name = "clientId") String clientId) {
         MessageContext messageContext = webServiceContext.getMessageContext();
 
-        AddressingProperties addressProp = (AddressingProperties) messageContext
-                .get(org.apache.cxf.ws.addressing.JAXWSAConstants.ADDRESSING_PROPERTIES_INBOUND);
         try {
             Session session = SOAPMOMServer.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Destination destination = session.createQueue(SOAPMOMServer.destinationQueues.get(clientId));
@@ -72,6 +71,11 @@ public class SOAPMOMImpl {
             if (message != null && message instanceof ObjectMessage) {
                 ObjectMessage oMessage = (ObjectMessage) message;
                 MResponseType returnM = (MResponseType) oMessage.getObject();
+                AddressingProperties addressProp = new AddressingProperties();
+                RelatesToType messageId = new RelatesToType();
+                messageId.setValue(oMessage.getJMSCorrelationID());
+                addressProp.setRelatesTo(messageId);
+                messageContext.put(org.apache.cxf.ws.addressing.JAXWSAConstants.ADDRESSING_PROPERTIES_OUTBOUND, addressProp);
                 return returnM;
             }
         } catch (JMSException e) {
