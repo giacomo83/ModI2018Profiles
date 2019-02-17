@@ -54,7 +54,6 @@ public class RESTCallbackClient {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Content-Type", "application/json");
-			conn.setRequestProperty("X-Correlation-ID", UUID.randomUUID().toString());
                         conn.setRequestProperty("X-ReplyTo", "http://localhost:8181/rest/v1/nomeinterfacciaservizio/MResponse");
 			MType req = new MType();
 			AComplexType a = new AComplexType();
