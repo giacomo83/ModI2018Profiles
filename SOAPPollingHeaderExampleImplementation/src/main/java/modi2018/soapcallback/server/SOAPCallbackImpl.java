@@ -48,7 +48,7 @@ public class SOAPCallbackImpl implements SOAPCallback {
     }
 
     @Override
-    public MResponseType PullMessageById(String correlationID) throws ErrorMessageException {
+    public MResponseType PullResponseMessageById(String correlationID) throws ErrorMessageException {
         synchronized(results) {
             if (results.containsKey(correlationID)) {
                 MResponseType toReturn = results.get(correlationID);
@@ -61,7 +61,7 @@ public class SOAPCallbackImpl implements SOAPCallback {
     }
 
     @Override
-    public MResponseType PullNextMessage(@WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException {
+    public MResponseType PullNextResponseMessage(@WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException {
         synchronized(results) {
             if (results.isEmpty()) {
                 throw new ErrorMessageException("11", "No result available");

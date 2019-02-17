@@ -29,8 +29,8 @@ public interface SOAPCallback {
             @WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException;
     
     @WebMethod(operationName="MResponseById")
-    public MResponseType PullMessageById(@WebParam(name="X-CorrelationID", header=true) String correlationID) throws ErrorMessageException;
+    public MResponseType PullResponseMessageById(@WebParam(name="X-CorrelationID", header=true) String correlationID) throws ErrorMessageException;
     
     @WebMethod(operationName="MNextResponse")
-    public MResponseType PullNextMessage(@WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException;
+    public MResponseType PullNextResponseMessage(@WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException;
 }

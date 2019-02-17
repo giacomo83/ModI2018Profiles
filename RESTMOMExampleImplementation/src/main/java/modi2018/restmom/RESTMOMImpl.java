@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.util.UUID;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -44,7 +45,9 @@ public class RESTMOMImpl {
             responses= {
                 @ApiResponse(responseCode = "500", description = "Errore interno avvenuto", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
                 @ApiResponse(responseCode = "404", description = "Identificativo non trovato", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
-                @ApiResponse(responseCode = "202", description = "Preso carico correttamente di M", content=@Content(schema=@Schema(implementation=PushMessageReturn.class)))
+                @ApiResponse(responseCode = "202", description = "Preso carico correttamente di M",
+                        content=@Content(schema=@Schema(implementation=PushMessageReturn.class)),
+                        headers={@Header(name="X-Correlation-ID", required=true, schema=@Schema(implementation=String.class))})
             })
     /*@ApiOperation(value = "M", response = PushMessageReturn.class)
         @ApiResponses(value= {
@@ -52,8 +55,8 @@ public class RESTMOMImpl {
             @ApiResponse(code = 500, message = "Errore interno avvenuto", response = ErrorMessage.class),
             @ApiResponse(code = 404, message = "Identificativo non trovato", response = ErrorMessage.class)
         })*/
-    public Response PushMessage(@HeaderParam("X-Correlation-ID") String correlationId,
-            @QueryParam("clientId") String clientId, MType M, @PathParam("id_resource") int id_resource) {
+    public Response PushMessage(/*@QueryParam("clientId") String clientId, */MType M, @PathParam("id_resource") int id_resource) {
+        String clientId = "testQueue";
         try {
             //restContext.addHeader("X-Correlation-ID", correlationId);
             Session session = RESTMOMServer.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -61,7 +64,8 @@ public class RESTMOMImpl {
             MessageProducer producer = session.createProducer(destination);
             ObjectMessage message = session.createObjectMessage(M);
             message.setStringProperty("clientId", clientId);
-            message.setJMSCorrelationID(correlationId);
+            final String guid = UUID.randomUUID().toString();
+            message.setJMSCorrelationID(guid);
             Queue replyToQueue = null;
             if (RESTMOMServer.destinationQueues.containsKey(clientId)) {
                 replyToQueue = session.createQueue(RESTMOMServer.destinationQueues.get(clientId));
@@ -71,8 +75,8 @@ public class RESTMOMImpl {
             }
             message.setJMSReplyTo(replyToQueue);
             producer.send(message);
-            RESTMOMServer.correlationIdToClient.put(correlationId, clientId);
-            return Response.status(202).entity(new PushMessageReturn("ACK")).build();
+            RESTMOMServer.correlationIdToClient.put(guid, clientId);
+            return Response.status(202).entity(new PushMessageReturn("ACK")).header("X-Correlation-ID", guid).build();
         } catch (JMSException e) {
             e.printStackTrace();
             return Response.status(500).entity(new ErrorMessage("NACK")).build();
@@ -80,7 +84,7 @@ public class RESTMOMImpl {
     }
 
     @GET
-    @Path("MResponse")
+    @Path("MNextResponse")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description="MResponse",
             responses= {
@@ -97,7 +101,8 @@ public class RESTMOMImpl {
             @ApiResponse(code = 500, message = "Errore interno avvenuto", response = ErrorMessage.class),
             @ApiResponse(code = 404, message = "Nessun messaggio trovato", response = ErrorMessage.class)
         })*/
-    public Response PullResponseMessage(@QueryParam("clientId") String clientId) {
+    public Response PullNextResponseMessage(/*@QueryParam("clientId") String clientId*/) {
+        String clientId = "testQueue";
         try {
             Session session = RESTMOMServer.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             Destination destination = session.createQueue(RESTMOMServer.destinationQueues.get(clientId));
@@ -106,7 +111,43 @@ public class RESTMOMImpl {
             if (message != null && message instanceof ObjectMessage) {
                 ObjectMessage oMessage = (ObjectMessage) message;
                 MResponseType returnM = (MResponseType) oMessage.getObject();
-                restContext.addHeader("X-Correlation-ID", oMessage.getJMSCorrelationID());
+                //restContext.addHeader("X-Correlation-ID", oMessage.getJMSCorrelationID());
+                return Response.status(200).entity(returnM).header("X-Correlation-ID", oMessage.getJMSCorrelationID()).build();
+            } else {
+                return Response.status(404).build();
+            }
+        } catch (JMSException e) {
+            e.printStackTrace();
+            return Response.status(500).build();
+        }
+    }
+    
+    @GET
+    @Path("MResponseById")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(description="MResponse",
+            responses= {
+                @ApiResponse(responseCode = "500", description = "Errore interno avvenuto", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
+                @ApiResponse(responseCode = "404", description = "Identificativo non trovato", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
+                @ApiResponse(responseCode = "200", description = "Esecuzione di M completata", content=@Content(schema=@Schema(implementation=MResponseType.class)))
+                })
+    /*@ApiOperation(value = "MResponse", response = MResponseType.class)
+        @ApiResponses(value= {
+            @ApiResponse(code = 200, message = "Esecuzione di M completata", response = MResponseType.class),
+            @ApiResponse(code = 500, message = "Errore interno avvenuto", response = ErrorMessage.class),
+            @ApiResponse(code = 404, message = "Nessun messaggio trovato", response = ErrorMessage.class)
+        })*/
+    public Response PullResponseMessageById(/*@QueryParam("clientId") String clientId, */@HeaderParam("X-Correlation-ID") String correlationId) {
+        String clientId = "testQueue";
+        try {
+            Session session = RESTMOMServer.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            Destination destination = session.createQueue(RESTMOMServer.destinationQueues.get(clientId));
+            MessageConsumer consumer = session.createConsumer(destination);
+            //TODO: Search by Id
+            Message message = consumer.receiveNoWait();
+            if (message != null && message instanceof ObjectMessage) {
+                ObjectMessage oMessage = (ObjectMessage) message;
+                MResponseType returnM = (MResponseType) oMessage.getObject();
                 return Response.status(200).entity(returnM).build();
             } else {
                 return Response.status(404).build();
