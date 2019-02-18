@@ -33,9 +33,9 @@ public class RESTCallbackClientImpl {
             responses= {
                 @ApiResponse(responseCode = "500", description = "Errore interno avvenuto", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
                 @ApiResponse(responseCode = "404", description = "Identificativo non trovato", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
-                @ApiResponse(responseCode = "200", description = "Risposta correttamente ricevuta", content=@Content(schema=@Schema(implementation=ACKMessage.class)))
+                @ApiResponse(responseCode = "202", description = "Risposta correttamente ricevuta")
             })
 	public Response PushResponseMessage(@HeaderParam("X-Correlation-ID") String correlationId, MResponseType response) {
-		return Response.status(200).entity(new ACKMessage("ACK")).build();
+		return Response.status(202).build();
 	}
 }
