@@ -39,11 +39,13 @@ public class ProcessingThread implements Runnable {
 				OutputStream os = conn.getOutputStream();
 				os.write(om.writeValueAsString(resp).getBytes());
 				os.flush();
-				if (conn.getResponseCode() != HttpURLConnection.HTTP_ACCEPTED) {
+				if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 					throw new RuntimeException("Failed : HTTP error code : "
 						+ conn.getResponseCode());
 				}
-				System.out.println("Received ACK");
+				ObjectReader or = om.readerFor(ACKMessage.class);
+				ACKMessage ack = or.readValue(conn.getInputStream());
+				System.out.println(ack.outcome);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

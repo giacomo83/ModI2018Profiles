@@ -45,7 +45,7 @@ public class RESTCallbackImpl {
                 ,
                 @ApiResponse(responseCode = "404", description = "Identificativo non trovato", content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
                 ,
-                @ApiResponse(responseCode = "200", description = "Preso carico correttamente di M",
+                @ApiResponse(responseCode = "202", description = "Preso carico correttamente di M",
                         content = @Content(schema = @Schema(implementation = ACKMessage.class)),
                         headers = {
                             @Header(name = "X-Correlation-ID", required = true, schema = @Schema(implementation = String.class))})
@@ -53,7 +53,7 @@ public class RESTCallbackImpl {
     @Callbacks(value = {
         @Callback(name = "completionCallback", callbackUrlExpression = "{$request.header#/X-ReplyTo}", operation
                 = @Operation(method = "post", responses = {
-            @ApiResponse(responseCode = "202", description = "Ricevuto", content = @Content(schema = @Schema(implementation = ACKMessage.class)))
+            @ApiResponse(responseCode = "200", description = "Ricevuto", content = @Content(schema = @Schema(implementation = ACKMessage.class)))
         }, requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = MResponseType.class))))
         )
     })
@@ -61,7 +61,7 @@ public class RESTCallbackImpl {
             MType M, @PathParam("id_resource") int id_resource) {
         final String guid = UUID.randomUUID().toString();
         ProcessingThread pt = new ProcessingThread(guid, replyTo, M, id_resource);
-        new Thread(pt).run();
-        return Response.status(200).entity(new ACKMessage("ACK")).header("X-Correlation-ID", guid).build();
+        new Thread(pt).start();
+        return Response.status(202).entity(new ACKMessage("ACK")).header("X-Correlation-ID", guid).build();
     }
 }

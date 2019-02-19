@@ -67,7 +67,7 @@ public class RESTCallbackClient {
             System.out.println(om.writeValueAsString(req));
             os.write(om.writeValueAsString(req).getBytes());
             os.flush();
-            if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_ACCEPTED) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + conn.getResponseCode());
             }
