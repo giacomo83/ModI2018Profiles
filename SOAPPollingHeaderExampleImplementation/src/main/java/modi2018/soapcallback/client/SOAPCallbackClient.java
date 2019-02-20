@@ -26,17 +26,26 @@ public class SOAPCallbackClient {
             
             while (true) {
                 try {
-                    modi2018.soapcallback.client.serverreference.MNextResponse parameters2 = new modi2018.soapcallback.client.serverreference.MNextResponse();
-                    javax.xml.ws.Holder<modi2018.soapcallback.client.serverreference.MNextResponseResponse> result2 = new javax.xml.ws.Holder<>();
-                    javax.xml.ws.Holder<java.lang.String> xCorrelationID2 = new javax.xml.ws.Holder<>();
-                    port.mNextResponse(parameters2, result2, xCorrelationID2);
-                    System.out.println("Result received for " + xCorrelationID2.value);
-                    break;
+                    modi2018.soapcallback.client.serverreference.MProcessingStatus parameters2 = new modi2018.soapcallback.client.serverreference.MProcessingStatus();
+                    modi2018.soapcallback.client.serverreference.MProcessingStatusResponse result2 = port.mProcessingStatus(parameters2, xCorrelationID.value);
+                    System.out.println(result2.getReturn().getStatus());
+                    if (result2.getReturn().getStatus().equals("done")) {
+                        break;
+                    }
                 } catch (modi2018.soapcallback.client.serverreference.ErrorMessageException ex) {
                     System.out.println("Error: " + ex.getMessage());
                 }
                 Thread.sleep(1000);
             }
+            
+            try { // Call Web Service Operation
+                modi2018.soapcallback.client.serverreference.MResponse parameters3 = new modi2018.soapcallback.client.serverreference.MResponse();
+                modi2018.soapcallback.client.serverreference.MResponseResponse result3 = port.mResponse(parameters3, xCorrelationID.value);
+                System.out.println("Result = "+result3.getReturn().getC());
+            } catch (Exception ex) {
+                // TODO handle custom exceptions here
+            }
+
         } catch (Exception ex) {
             // TODO handle custom exceptions here
         }

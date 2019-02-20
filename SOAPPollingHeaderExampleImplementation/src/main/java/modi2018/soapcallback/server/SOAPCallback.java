@@ -12,6 +12,7 @@ import javax.xml.ws.Holder;
 import javax.xml.ws.soap.Addressing;
 import modi2018.soapcallback.ACKMessage;
 import modi2018.soapcallback.ErrorMessageException;
+import modi2018.soapcallback.ProcessingStatus;
 import modi2018.soapcallback.MResponseType;
 import modi2018.soapcallback.MType;
 import org.apache.cxf.headers.Header;
@@ -25,12 +26,12 @@ import org.apache.cxf.interceptor.OutInterceptors;
 @OutInterceptors(interceptors="modi2018.soapcallback.server.Interceptor")
 public interface SOAPCallback {
     @WebMethod(operationName="MRequest")
-    public ACKMessage PushMessage(@WebParam(name = "M") MType M,
+    public ProcessingStatus PushMessage(@WebParam(name = "M") MType M,
             @WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException;
     
-    @WebMethod(operationName="MResponseById")
-    public MResponseType PullResponseMessageById(@WebParam(name="X-CorrelationID", header=true) String correlationID) throws ErrorMessageException;
+    @WebMethod(operationName="MProcessingStatus")
+    public ProcessingStatus ResponseMessageById(@WebParam(name="X-CorrelationID", header=true) String correlationID) throws ErrorMessageException;
     
-    @WebMethod(operationName="MNextResponse")
-    public MResponseType PullNextResponseMessage(@WebParam(name="X-CorrelationID", header=true, mode=WebParam.Mode.OUT) Holder<String> correlationID) throws ErrorMessageException;
+    @WebMethod(operationName="MResponse")
+    public MResponseType ResponseById(@WebParam(name="X-CorrelationID", header=true) String correlationID) throws ErrorMessageException;
 }
