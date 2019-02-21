@@ -53,7 +53,9 @@ public class RESTCallbackImpl {
     @Callbacks(value = {
         @Callback(name = "completionCallback", callbackUrlExpression = "{$request.header#/X-ReplyTo}", operation
                 = @Operation(method = "post", responses = {
-            @ApiResponse(responseCode = "200", description = "Ricevuto", content = @Content(schema = @Schema(implementation = ACKMessage.class)))
+            @ApiResponse(responseCode = "500", description = "Errore interno avvenuto", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
+            @ApiResponse(responseCode = "404", description = "Identificativo non trovato", content=@Content(schema=@Schema(implementation=ErrorMessage.class))),
+            @ApiResponse(responseCode = "200", description = "Risposta correttamente ricevuta", content=@Content(schema=@Schema(implementation=ACKMessage.class)))
         }, requestBody = @RequestBody(content = @Content(schema = @Schema(implementation = MResponseType.class))))
         )
     })

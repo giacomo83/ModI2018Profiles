@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,6 +24,7 @@ public class RESTCallbackClientImpl {
 	@POST
 	@Path("MResponse")
 	@Produces(MediaType.APPLICATION_JSON)
+        @Consumes(MediaType.APPLICATION_JSON)
         /*@ApiOperation(value = "MResponse", response = ACKMessage.class)
         @ApiResponses(value= {
             @ApiResponse(code = 200, message = "Risposta correttamente ricevuta", response = ACKMessage.class),
