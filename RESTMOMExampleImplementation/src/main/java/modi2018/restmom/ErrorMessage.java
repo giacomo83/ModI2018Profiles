@@ -12,7 +12,11 @@ import java.io.Serializable;
  * @author Francesco
  */
 public class ErrorMessage implements Serializable {
-    public ErrorMessage(String error_message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public ErrorMessage(String error_message) {
         this.error_message = error_message;
     }
     public String error_message;

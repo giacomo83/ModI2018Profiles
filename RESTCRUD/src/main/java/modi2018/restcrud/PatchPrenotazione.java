@@ -13,7 +13,11 @@ import java.util.Date;
  * @author Francesco
  */
 public class PatchPrenotazione implements Serializable {
-    public Date data;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public Date data;
     public String ora;
     public String motivazione;
 }

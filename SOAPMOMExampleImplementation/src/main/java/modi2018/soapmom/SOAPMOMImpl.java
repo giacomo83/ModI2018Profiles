@@ -9,7 +9,6 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.TemporaryQueue;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -18,7 +17,6 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.soap.Addressing;
 
 import org.apache.cxf.ws.addressing.AddressingProperties;
-import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.RelatesToType;
 
 @WebService(targetNamespace = "http://amministrazioneesempio.it/nomeinterfacciaservizio")

@@ -1,9 +1,7 @@
 package modi2018.restcrud;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
+
 import javax.ws.rs.core.Response;
 
 public class RESTBlockingImpl implements RESTBlockingIface {

@@ -12,5 +12,9 @@ import java.io.Serializable;
  * @author Francesco
  */
 public class ErrorMessage implements Serializable {
-    public String error_message;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public String error_message;
 }

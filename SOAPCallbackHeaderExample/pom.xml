@@ -30,6 +30,7 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
+                        	<bindingDirectory>${project.build.directory}/jaxws_8080/</bindingDirectory>
                             <wsdlFiles>
                                 <wsdlFile>localhost_8080/soap/nomeinterfacciaservizio/v1.wsdl</wsdlFile>
                             </wsdlFiles>
@@ -39,6 +40,7 @@
                             </vmArgs>
                             <wsdlLocation>http://localhost:8080/soap/nomeinterfacciaservizio/v1?wsdl</wsdlLocation>
                             <staleFile>${project.build.directory}/jaxws/stale/v1.stale</staleFile>
+                            <extension>true</extension>
                         </configuration>
                         <id>wsimport-generate-v1</id>
                         <phase>generate-sources</phase>
@@ -48,6 +50,7 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
+                        	<bindingDirectory>${project.build.directory}/jaxws_8181/</bindingDirectory>
                             <wsdlFiles>
                                 <wsdlFile>localhost_8181/soap/nomeinterfacciaservizio/v1.wsdl</wsdlFile>
                             </wsdlFiles>
@@ -57,6 +60,8 @@
                             </vmArgs>
                             <wsdlLocation>http://localhost:8181/soap/nomeinterfacciaservizio/v1?wsdl</wsdlLocation>
                             <staleFile>${project.build.directory}/jaxws/stale/v1_1.stale</staleFile>
+                            <extension>true</extension>
+   
                         </configuration>
                         <id>wsimport-generate-v1_1</id>
                         <phase>generate-sources</phase>

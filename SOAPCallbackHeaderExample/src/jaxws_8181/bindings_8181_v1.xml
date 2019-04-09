@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" wsdlLocation="../wsdl/localhost_8181/soap/nomeinterfacciaservizio/v1.wsdl" xmlns="http://java.sun.com/xml/ns/jaxws">
+	<!-- Disable default wrapper style -->
+	<enableWrapperStyle>false</enableWrapperStyle>  
+	<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+		<endpoint binding="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/"/>
+	</endpoints>
+</bindings>

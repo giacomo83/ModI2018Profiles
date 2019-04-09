@@ -6,10 +6,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
+import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
+import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -18,8 +19,6 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import modi2018.restcallback.ACKMessage;
 import modi2018.restcallback.AComplexType;
 import modi2018.restcallback.MType;
-import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
-import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 
 public class RESTCallbackClient {
     public static void main(String[] args) {

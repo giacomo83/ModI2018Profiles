@@ -13,8 +13,8 @@ import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.soap.Addressing;
+
 import modi2018.soapcallback.MResponseType;
 
 @WebService(targetNamespace = "http://amministrazioneesempio.it/nomeinterfacciaservizio", portName = "SOAPCallbackPort", name = "SOAPCallbackPort" )

@@ -1,22 +1,14 @@
 package modi2018.soapcallback.client;
 
-import java.net.URL;
-import java.util.UUID;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
-import javax.xml.ws.handler.MessageContext;
-import modi2018.soapcallback.client.serverreference.MRequestResponse;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.interceptor.Interceptor;
-import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
-import org.apache.cxf.ws.addressing.AddressingProperties;
-import org.apache.cxf.ws.addressing.AttributedURIType;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
 
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
+import org.apache.cxf.binding.BindingConfiguration;
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+
+import modi2018.soapcallback.client.serverreference.MRequestResponse;
+import modi2018.soapcallback.client.serverreference.SOAPCallback;
 
 public class SOAPCallbackClient {
 
@@ -24,12 +16,23 @@ public class SOAPCallbackClient {
 
         String address = "http://localhost:8181/soap/nomeinterfacciaservizio/v1";
 
-        SOAPCallbackClientInterfaceImpl implementor = new SOAPCallbackClientInterfaceImpl();
+        SOAPCallbackClientImpl implementor = new SOAPCallbackClientImpl();
         JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
-        factory.setServiceClass(SOAPCallbackClientInterface.class);
+        BindingConfiguration config = new BindingConfiguration() {
+
+            @Override
+            public String getBindingId() {
+                    
+                    return javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING; 
+            }
+        };
+        factory.setBindingConfig(config);
+        
+        factory.setServiceClass(SOAPCallbackClientImpl.class);
         factory.setAddress(address);
         factory.setServiceBean(implementor);
         Server create = factory.create();
+        System.out.println("Created Server for service:"+create.getEndpoint().getService().getName());
 
         new Thread(new ClientThread()).start();
     }
@@ -42,12 +45,23 @@ class ClientThread implements Runnable {
         String serverAddress = "http://localhost:8080/soap/nomeinterfacciaservizio/v1";
         String address = "http://localhost:8181/soap/nomeinterfacciaservizio/v1";
         try { // Call Web Service Operation
-            modi2018.soapcallback.client.serverreference.SOAPCallbackService service = new modi2018.soapcallback.client.serverreference.SOAPCallbackService(new URL("http://localhost:8080/soap/nomeinterfacciaservizio/v1?wsdl"));
-            modi2018.soapcallback.client.serverreference.SOAPCallback port = service.getSOAPCallbackPort();
-            BindingProvider bindingProvider = (BindingProvider) port;
-            bindingProvider.getRequestContext().put(
-                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                    serverAddress);
+            
+        	JaxWsProxyFactoryBean  factory = new JaxWsProxyFactoryBean();
+            factory.setServiceClass(SOAPCallback.class);
+            factory.setAddress(serverAddress);
+            BindingConfiguration config = new BindingConfiguration() {
+
+	            @Override
+	            public String getBindingId() {
+	                    
+	                    return javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING; 
+	            }
+            };
+            factory.setBindingConfig(config);
+            
+            SOAPCallback port = (SOAPCallback)factory.create();
+           
+        	     
             // TODO initialize WS operation arguments here
             modi2018.soapcallback.client.serverreference.MType m = new modi2018.soapcallback.client.serverreference.MType();
             m.setOId(1234);

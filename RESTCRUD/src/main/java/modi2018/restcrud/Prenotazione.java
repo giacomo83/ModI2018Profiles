@@ -12,7 +12,11 @@ import java.io.Serializable;
  * @author Francesco
  */
 public class Prenotazione implements Serializable {
-    public String nome;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public String nome;
     public String cognome;
     public String cf;
     public PatchPrenotazione dettagli;

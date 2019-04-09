@@ -1,24 +1,15 @@
 package modi2018.soapcallback.server;
 
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.jws.WebService;
-import javax.jws.WebParam;
-import javax.xml.ws.AsyncHandler;
-import javax.xml.ws.Response;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.soap.Addressing;
 
-import modi2018.soapcallback.MType;
-import modi2018.soapcallback.ACKMessage;
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+import javax.xml.ws.WebServiceContext;
+
 import modi2018.soapcallback.ErrorMessageException;
 import modi2018.soapcallback.MResponseType;
-import org.apache.cxf.annotations.UseAsyncMethod;
-import org.apache.cxf.jaxws.ServerAsyncResponse;
-import org.apache.cxf.ws.addressing.AddressingProperties;
+import modi2018.soapcallback.MType;
 
 public class SOAPCallbackImpl implements SOAPCallback {
     @Resource
@@ -68,7 +59,7 @@ public class SOAPCallbackImpl implements SOAPCallback {
     //@UseAsyncMethod
     @Override
     public MResponseType PushMessage(@WebParam(name = "M") MType M) throws ErrorMessageException {
-        MessageContext messageContext = webServiceContext.getMessageContext();
+        //MessageContext messageContext = webServiceContext.getMessageContext();
 
         /*AddressingProperties addressProp = (AddressingProperties) messageContext
             .get(org.apache.cxf.ws.addressing.JAXWSAConstants.ADDRESSING_PROPERTIES_INBOUND);
