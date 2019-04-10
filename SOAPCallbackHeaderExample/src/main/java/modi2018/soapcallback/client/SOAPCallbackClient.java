@@ -4,6 +4,8 @@ import javax.xml.ws.Holder;
 
 import org.apache.cxf.binding.BindingConfiguration;
 import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
@@ -31,6 +33,11 @@ public class SOAPCallbackClient {
         factory.setServiceClass(SOAPCallbackClientImpl.class);
         factory.setAddress(address);
         factory.setServiceBean(implementor);
+        
+        factory.getInInterceptors().add(new LoggingInInterceptor());
+        factory.getOutInterceptors().add(new LoggingOutInterceptor());
+        
+        
         Server create = factory.create();
         System.out.println("Created Server for service:"+create.getEndpoint().getService().getName());
 
@@ -77,8 +84,8 @@ class ClientThread implements Runnable {
             Holder<String> correlationId = new Holder<>();
             port.mRequest(mReq, address, resp, correlationId);
             System.out.println("Correlation ID: " + correlationId.value);
-            port.mRequest(mReq, address, resp, correlationId);
-            System.out.println("Correlation ID: " + correlationId.value);
+            //port.mRequest(mReq, address, resp, correlationId);
+            //System.out.println("Correlation ID: " + correlationId.value);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
