@@ -34,7 +34,7 @@ public class SOAPPullServiceImpl implements SOAPPull {
 		
 		  final String guid = UUID.randomUUID().toString();
 	      final ProcessingStatus mps = new ProcessingStatus();
-	      mps.setStatus("pending");
+	      mps.setStatus("accepted");
 	      mps.setMessage("Preso carico della richiesta");
 	        
 	      synchronized (processingStatuses) {
